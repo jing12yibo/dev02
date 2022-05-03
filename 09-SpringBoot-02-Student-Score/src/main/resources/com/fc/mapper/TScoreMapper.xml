@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fc.dao.TbSheetMapper">
-  <select id="findSongsBySheet" resultType="com.fc.entity.TbMusic">
-    select tm.* from tb_sheet ts
-    join tb_music tm on ts.id = tm.sheet_id
-    where ts.sheet_name = #{sheetName}
-  </select>
-  <resultMap id="BaseResultMap" type="com.fc.entity.TbSheet">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="sheet_name" jdbcType="VARCHAR" property="sheetName" />
+<mapper namespace="com.fc.dao.TScoreMapper">
+  <resultMap id="BaseResultMap" type="com.fc.entity.TScore">
+    <id column="score_id" jdbcType="INTEGER" property="scoreId" />
+    <result column="score_value" jdbcType="INTEGER" property="scoreValue" />
+    <result column="score_type" jdbcType="VARCHAR" property="scoreType" />
+    <result column="student_id" jdbcType="INTEGER" property="studentId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sheet_name
+    score_id, score_value, score_type, student_id
   </sql>
-  <select id="selectByExample" parameterType="com.fc.entity.TbSheetExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.fc.entity.TScoreExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_sheet
+    from t_score
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,56 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_sheet
-    where id = #{id,jdbcType=INTEGER}
+    from t_score
+    where score_id = #{scoreId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_sheet
-    where id = #{id,jdbcType=INTEGER}
+    delete from t_score
+    where score_id = #{scoreId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.fc.entity.TbSheetExample">
-    delete from tb_sheet
+  <delete id="deleteByExample" parameterType="com.fc.entity.TScoreExample">
+    delete from t_score
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.fc.entity.TbSheet">
-    insert into tb_sheet (id, sheet_name)
-    values (#{id,jdbcType=INTEGER}, #{sheetName,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.fc.entity.TScore">
+    insert into t_score (score_id, score_value, score_type, 
+      student_id)
+    values (#{scoreId,jdbcType=INTEGER}, #{scoreValue,jdbcType=INTEGER}, #{scoreType,jdbcType=VARCHAR}, 
+      #{studentId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.fc.entity.TbSheet">
-    insert into tb_sheet
+  <insert id="insertSelective" parameterType="com.fc.entity.TScore">
+    insert into t_score
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="scoreId != null">
+        score_id,
       </if>
-      <if test="sheetName != null">
-        sheet_name,
+      <if test="scoreValue != null">
+        score_value,
+      </if>
+      <if test="scoreType != null">
+        score_type,
+      </if>
+      <if test="studentId != null">
+        student_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="scoreId != null">
+        #{scoreId,jdbcType=INTEGER},
       </if>
-      <if test="sheetName != null">
-        #{sheetName,jdbcType=VARCHAR},
+      <if test="scoreValue != null">
+        #{scoreValue,jdbcType=INTEGER},
+      </if>
+      <if test="scoreType != null">
+        #{scoreType,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.fc.entity.TbSheetExample" resultType="java.lang.Long">
-    select count(*) from tb_sheet
+  <select id="countByExample" parameterType="com.fc.entity.TScoreExample" resultType="java.lang.Long">
+    select count(*) from t_score
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_sheet
+    update t_score
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.scoreId != null">
+        score_id = #{record.scoreId,jdbcType=INTEGER},
       </if>
-      <if test="record.sheetName != null">
-        sheet_name = #{record.sheetName,jdbcType=VARCHAR},
+      <if test="record.scoreValue != null">
+        score_value = #{record.scoreValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.scoreType != null">
+        score_type = #{record.scoreType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -145,25 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_sheet
-    set id = #{record.id,jdbcType=INTEGER},
-      sheet_name = #{record.sheetName,jdbcType=VARCHAR}
+    update t_score
+    set score_id = #{record.scoreId,jdbcType=INTEGER},
+      score_value = #{record.scoreValue,jdbcType=INTEGER},
+      score_type = #{record.scoreType,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fc.entity.TbSheet">
-    update tb_sheet
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.entity.TScore">
+    update t_score
     <set>
-      <if test="sheetName != null">
-        sheet_name = #{sheetName,jdbcType=VARCHAR},
+      <if test="scoreValue != null">
+        score_value = #{scoreValue,jdbcType=INTEGER},
+      </if>
+      <if test="scoreType != null">
+        score_type = #{scoreType,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where score_id = #{scoreId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fc.entity.TbSheet">
-    update tb_sheet
-    set sheet_name = #{sheetName,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.fc.entity.TScore">
+    update t_score
+    set score_value = #{scoreValue,jdbcType=INTEGER},
+      score_type = #{scoreType,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=INTEGER}
+    where score_id = #{scoreId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fc.dao.CarouselMapper">
-  <!--更改轮播图的状态-->
-  <update id="changeStatus">
-    update carousel
-    set available = !available
-    where id = #{id}
-  </update>
-  <resultMap id="BaseResultMap" type="com.fc.entity.Carousel">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="picture" jdbcType="VARCHAR" property="picture" />
-    <result column="available" jdbcType="BIT" property="available" />
+<mapper namespace="com.fc.dao.TStudentMapper">
+  <resultMap id="BaseResultMap" type="com.fc.entity.TStudent">
+    <id column="student_no" jdbcType="INTEGER" property="studentNo" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="student_sex" jdbcType="VARCHAR" property="studentSex" />
+    <result column="stu_pass" jdbcType="VARCHAR" property="stuPass" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, picture, available
+    student_no, student_name, student_sex, stu_pass
   </sql>
-  <select id="selectByExample" parameterType="com.fc.entity.CarouselExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.fc.entity.TStudentExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from carousel
+    from t_student
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,76 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from carousel
-    where id = #{id,jdbcType=INTEGER}
+    from t_student
+    where student_no = #{studentNo,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from carousel
-    where id = #{id,jdbcType=INTEGER}
+    delete from t_student
+    where student_no = #{studentNo,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.fc.entity.CarouselExample">
-    delete from carousel
+  <delete id="deleteByExample" parameterType="com.fc.entity.TStudentExample">
+    delete from t_student
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.fc.entity.Carousel">
-    insert into carousel (id, name, picture, 
-      available)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, 
-      #{available,jdbcType=BIT})
+  <insert id="insert" parameterType="com.fc.entity.TStudent">
+    insert into t_student (student_no, student_name, student_sex, 
+      stu_pass)
+    values (#{studentNo,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}, #{studentSex,jdbcType=VARCHAR}, 
+      #{stuPass,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.fc.entity.Carousel">
-    insert into carousel
+  <insert id="insertSelective" parameterType="com.fc.entity.TStudent">
+    insert into t_student
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="studentNo != null">
+        student_no,
       </if>
-      <if test="name != null">
-        name,
+      <if test="studentName != null">
+        student_name,
       </if>
-      <if test="picture != null">
-        picture,
+      <if test="studentSex != null">
+        student_sex,
       </if>
-      <if test="available != null">
-        available,
+      <if test="stuPass != null">
+        stu_pass,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="studentNo != null">
+        #{studentNo,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
       </if>
-      <if test="picture != null">
-        #{picture,jdbcType=VARCHAR},
+      <if test="studentSex != null">
+        #{studentSex,jdbcType=VARCHAR},
       </if>
-      <if test="available != null">
-        #{available,jdbcType=BIT},
+      <if test="stuPass != null">
+        #{stuPass,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.fc.entity.CarouselExample" resultType="java.lang.Long">
-    select count(*) from carousel
+  <select id="countByExample" parameterType="com.fc.entity.TStudentExample" resultType="java.lang.Long">
+    select count(*) from t_student
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update carousel
+    update t_student
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.studentNo != null">
+        student_no = #{record.studentNo,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.studentName != null">
+        student_name = #{record.studentName,jdbcType=VARCHAR},
       </if>
-      <if test="record.picture != null">
-        picture = #{record.picture,jdbcType=VARCHAR},
+      <if test="record.studentSex != null">
+        student_sex = #{record.studentSex,jdbcType=VARCHAR},
       </if>
-      <if test="record.available != null">
-        available = #{record.available,jdbcType=BIT},
+      <if test="record.stuPass != null">
+        stu_pass = #{record.stuPass,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -168,35 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update carousel
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      picture = #{record.picture,jdbcType=VARCHAR},
-      available = #{record.available,jdbcType=BIT}
+    update t_student
+    set student_no = #{record.studentNo,jdbcType=INTEGER},
+      student_name = #{record.studentName,jdbcType=VARCHAR},
+      student_sex = #{record.studentSex,jdbcType=VARCHAR},
+      stu_pass = #{record.stuPass,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fc.entity.Carousel">
-    update carousel
+  <update id="updateByPrimaryKeySelective" parameterType="com.fc.entity.TStudent">
+    update t_student
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="studentName != null">
+        student_name = #{studentName,jdbcType=VARCHAR},
       </if>
-      <if test="picture != null">
-        picture = #{picture,jdbcType=VARCHAR},
+      <if test="studentSex != null">
+        student_sex = #{studentSex,jdbcType=VARCHAR},
       </if>
-      <if test="available != null">
-        available = #{available,jdbcType=BIT},
+      <if test="stuPass != null">
+        stu_pass = #{stuPass,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where student_no = #{studentNo,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fc.entity.Carousel">
-    update carousel
-    set name = #{name,jdbcType=VARCHAR},
-      picture = #{picture,jdbcType=VARCHAR},
-      available = #{available,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.fc.entity.TStudent">
+    update t_student
+    set student_name = #{studentName,jdbcType=VARCHAR},
+      student_sex = #{studentSex,jdbcType=VARCHAR},
+      stu_pass = #{stuPass,jdbcType=VARCHAR}
+    where student_no = #{studentNo,jdbcType=INTEGER}
   </update>
 </mapper>
